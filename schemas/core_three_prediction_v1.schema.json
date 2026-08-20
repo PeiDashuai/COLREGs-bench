@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core_three_prediction_v1.schema.json",
+  "title": "Core-three benchmark prediction",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "triggered_rules",
+    "maneuver_allowed",
+    "maneuver_forbidden"
+  ],
+  "properties": {
+    "triggered_rules": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true,
+      "maxItems": 17
+    },
+    "maneuver_allowed": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true,
+      "maxItems": 9
+    },
+    "maneuver_forbidden": {
+      "type": "array",
+      "items": {"type": "string"},
+      "uniqueItems": true,
+      "maxItems": 6
+    }
+  }
+}

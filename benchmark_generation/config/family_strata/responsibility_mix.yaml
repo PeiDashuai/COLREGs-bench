@@ -1,0 +1,53 @@
+family_name: responsibility_mix
+
+sampling:
+  num_vessels:
+    min: 3
+    max: 6
+  latent_variables:
+    - name: role_structure
+      type: categorical
+      values: [uniform_giveway, uniform_standon, mixed_roles, hierarchy_conflict]
+    - name: vessel_status_combo
+      type: categorical
+      values:
+        - power_only
+        - power_sailing
+        - power_fishing
+        - power_ram
+        - power_nuc
+        - mixed_multi_status
+    - name: effective_target_count
+      type: categorical
+      values: [2, 3, 4]
+    - name: encounter_mix
+      type: categorical
+      values: [crossing_dominant, overtaking_dominant, mixed_encounters]
+    - name: urgency_level
+      type: categorical
+      values: [low, medium, high]
+
+strata:
+  dimensions:
+    - name: role_structure
+      bins: [uniform_giveway, uniform_standon, mixed_roles, hierarchy_conflict]
+      target_quota:
+        uniform_giveway: 0.20
+        uniform_standon: 0.20
+        mixed_roles: 0.35
+        hierarchy_conflict: 0.25
+    - name: vessel_status_combo
+      bins: [power_only, power_sailing, power_fishing, power_ram, power_nuc, mixed_multi_status]
+      target_quota:
+        power_only: 0.10
+        power_sailing: 0.15
+        power_fishing: 0.15
+        power_ram: 0.15
+        power_nuc: 0.10
+        mixed_multi_status: 0.35
+    - name: effective_target_count
+      bins: [2, 3, 4]
+      target_quota:
+        2: 0.40
+        3: 0.40
+        4: 0.20

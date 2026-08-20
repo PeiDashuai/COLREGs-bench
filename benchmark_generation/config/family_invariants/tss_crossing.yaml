@@ -1,0 +1,26 @@
+family_name: tss_crossing
+goal: >
+  Evaluate whether a model can reason about TSS-specific crossing obligations
+  rather than defaulting to a generic crossing template.
+
+required:
+  - tss_context_valid == true
+  - triggered_rules contain rule10_family_core == true
+  - final_explanation depends_on_tss_structure == true
+
+preferred:
+  - tss_rule_and_generic_collision_rule_coexist == true
+  - crossing_angle_requirement_materially_affects_final_labels == true
+
+forbidden:
+  - sample_reducible_to_generic_crossing_without_tss == true
+  - final_labels_unchanged_after_removing_lane_structure == true
+
+decision_dependence_tests:
+  - name: tss_structure_ablation
+    description: >
+      Remove TSS lane structure and recompute interpretation.
+      Applicable rules or final labels must change.
+  - name: crossing_angle_sensitivity
+    description: >
+      Angle band should materially affect rule applicability or explanation.

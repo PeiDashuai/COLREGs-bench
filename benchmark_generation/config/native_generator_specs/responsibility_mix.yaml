@@ -1,0 +1,145 @@
+schema_version: native_generator_spec_v1
+family_name: responsibility_mix
+generator_version: responsibility_mix_native_v1
+
+benchmark_goal: >
+  Generate multi-target scenes in which ownship must reason over heterogeneous
+  responsibility relations rather than a single ordinary crossing template.
+  The target of the family is target-level responsibility graph reasoning.
+
+latent_variables:
+  - name: effective_target_count
+    type: categorical
+    required: true
+    values: [2, 3, 4]
+  - name: role_structure
+    type: categorical
+    required: true
+    values: [uniform_giveway, uniform_standon, mixed_roles, hierarchy_conflict]
+  - name: target_status_combo
+    type: categorical
+    required: true
+    values: [power_only, power_sailing, power_fishing, power_ram, power_nuc, mixed_multi_status]
+  - name: encounter_mix
+    type: categorical
+    required: true
+    values: [crossing_dominant, overtaking_dominant, mixed_encounters]
+  - name: urgency_band
+    type: categorical
+    required: false
+    values: [low, medium, high]
+
+soft_target_distribution:
+  effective_target_count:
+    2: 0.40
+    3: 0.40
+    4: 0.20
+  role_structure:
+    uniform_giveway: 0.20
+    uniform_standon: 0.20
+    mixed_roles: 0.35
+    hierarchy_conflict: 0.25
+  target_status_combo:
+    power_only: 0.10
+    power_sailing: 0.15
+    power_fishing: 0.15
+    power_ram: 0.15
+    power_nuc: 0.10
+    mixed_multi_status: 0.35
+
+scene_builder:
+  ownship:
+    default_vessel_class: power_driven
+    default_nav_status: underway_making_way
+    speed_mps_range: [4.0, 8.0]
+  target_role_graph:
+    required: true
+    description: >
+      Scene generation must first construct a target-level responsibility graph,
+      then instantiate geometry and vessel classes that realize the intended graph.
+  status_templates:
+    power_only:
+      target_classes: [power_driven]
+    power_sailing:
+      target_classes: [power_driven, sailing]
+    power_fishing:
+      target_classes: [power_driven, fishing]
+    power_ram:
+      target_classes: [power_driven, ram]
+    power_nuc:
+      target_classes: [power_driven, nuc]
+    mixed_multi_status:
+      target_classes: [power_driven, sailing, fishing, ram, nuc]
+  role_constraints:
+    uniform_giveway:
+      require_all_effective_targets_role: giveway
+    uniform_standon:
+      require_all_effective_targets_role: standon
+    mixed_roles:
+      require_at_least_one_giveway_target: true
+      require_at_least_one_standon_target: true
+    hierarchy_conflict:
+      require_at_least_one_priority_target: true
+      require_at_least_one_nonpriority_target: true
+  encounter_constraints:
+    crossing_dominant:
+      min_crossing_targets: 1
+      max_overtaking_targets: 0
+    overtaking_dominant:
+      min_overtaking_targets: 1
+      max_crossing_targets: 1
+    mixed_encounters:
+      min_crossing_targets: 1
+      min_overtaking_targets: 1
+
+label_consistency_checks:
+  required_outputs:
+    - labels.triggered_rules
+    - labels.target_summaries
+    - labels.explanation_steps
+    - labels.maneuver_allowed
+    - labels.maneuver_forbidden
+  responsibility_checks:
+    require_target_level_role_profiles: true
+    require_role_structure_match: true
+    require_status_combo_match: true
+    require_rule18_for_hierarchy_conflict: true
+    class_status_ablation_changes_labels: true
+
+raw_candidate_schema:
+  required_top_level_fields:
+    - sample_id
+    - pattern
+    - source_mode
+    - generator_version
+    - candidate_seed
+    - family_latent
+    - scene_spec
+    - inputs
+    - labels
+  family_latent_required_fields:
+    - effective_target_count
+    - role_structure
+    - target_status_combo
+    - encounter_mix
+  scene_spec_required_fields:
+    - seed
+    - ownship
+    - targets
+    - target_role_graph
+  target_required_fields:
+    - id
+    - vessel_class
+    - nav_status
+    - x_m
+    - y_m
+    - heading_deg
+    - speed_mps
+    - intended_role
+
+rejection_conditions:
+  - target_role_graph_not_realized
+  - target_status_combo_not_realized
+  - no_target_level_role_heterogeneity_when_expected
+  - hierarchy_conflict_without_rule18_or_equivalent_priority_source
+  - effective_target_count_not_matching_latent

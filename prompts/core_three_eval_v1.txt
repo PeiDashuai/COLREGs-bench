@@ -1,0 +1,8 @@
+You are evaluating one fixed maritime scene under the COLREGs benchmark contract.
+Use only the observable scene specification and, when supplied, the top-down and radar images.
+Return exactly one JSON object with exactly these three keys: triggered_rules, maneuver_allowed, maneuver_forbidden.
+Every value must be an array of unique strings selected verbatim from the supplied closed vocabulary.
+Do not add explanations, markdown, confidence scores, target summaries, or fields that were not requested.
+If the evidence does not support a label, omit that label rather than inventing one.
+The hard list-length limits, derived only from the frozen training and validation labels, are: triggered_rules at most 17 items, maneuver_allowed at most 9 items, and maneuver_forbidden at most 6 items.
+Never exceed those limits. Select the scene-specific supported subset; do not enumerate general, merely plausible, or unrelated labels.

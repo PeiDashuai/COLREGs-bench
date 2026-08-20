@@ -1,0 +1,167 @@
+schema_version: native_generator_spec_v1
+family_name: restricted_multi
+generator_version: restricted_multi_native_v1
+
+benchmark_goal: >
+  Generate native multi-target collision-avoidance scenes in which ownship faces
+  at least three effective targets and the final maneuver set cannot be obtained
+  by simply applying a single local obligation. Scenes must exhibit non-trivial
+  global arbitration and at least one explicit suppression or conflict-shrink step.
+
+latent_variables:
+  - name: num_effective_targets
+    type: categorical
+    required: true
+    values: [3, 4, 5, 6]
+  - name: spatial_topology
+    type: categorical
+    required: true
+    values: [single_side_cluster, bilateral_constraint, frontal_blocking, surrounding_ring]
+  - name: suppression_mechanism
+    type: categorical
+    required: true
+    values: [action_conflict, hierarchy_override, area_override, mixed]
+  - name: urgency_band
+    type: categorical
+    required: true
+    values: [low, medium, high]
+  - name: visibility_mode
+    type: categorical
+    required: true
+    values: [in_sight, restricted_visibility]
+  - name: target_status_mix
+    type: categorical
+    required: true
+    values: [all_power, mixed_status]
+  - name: interaction_density
+    type: categorical
+    required: false
+    values: [sparse, medium, dense]
+
+soft_target_distribution:
+  num_effective_targets:
+    3: 0.30
+    4: 0.30
+    5: 0.25
+    6: 0.15
+  spatial_topology:
+    single_side_cluster: 0.20
+    bilateral_constraint: 0.30
+    frontal_blocking: 0.25
+    surrounding_ring: 0.25
+  suppression_mechanism:
+    action_conflict: 0.30
+    hierarchy_override: 0.25
+    area_override: 0.15
+    mixed: 0.30
+  urgency_band:
+    low: 0.20
+    medium: 0.45
+    high: 0.35
+
+scene_builder:
+  ownship:
+    vessel_class: power_driven
+    nav_status: underway_making_way
+    speed_mps_range: [4.0, 8.0]
+  targets:
+    min_total_targets: 3
+    max_total_targets: 6
+    speed_mps_range:
+      all_power: [3.0, 8.0]
+      mixed_status: [2.0, 8.0]
+  geometry_constraints:
+    min_initial_separation_m: 150.0
+    max_initial_separation_m: 2500.0
+    min_inter_target_separation_m: 80.0
+    ownship_spawn_region_m: [-200.0, 200.0, -200.0, 200.0]
+  topology_constraints:
+    single_side_cluster:
+      require_port_and_starboard_both: false
+      require_ahead_target: false
+    bilateral_constraint:
+      require_port_target: true
+      require_starboard_target: true
+      min_side_targets: 2
+    frontal_blocking:
+      require_ahead_target: true
+      require_at_least_one_side_target: true
+    surrounding_ring:
+      require_port_target: true
+      require_starboard_target: true
+      require_ahead_target: true
+      require_astern_target: true
+  urgency_constraints:
+    low:
+      min_tcpa_s: 120.0
+      min_cpa_m: 600.0
+    medium:
+      min_tcpa_s: 45.0
+      max_tcpa_s: 120.0
+      min_cpa_m: 250.0
+      max_cpa_m: 600.0
+    high:
+      max_tcpa_s: 45.0
+      max_cpa_m: 250.0
+  suppression_constraints:
+    action_conflict:
+      require_same_primitive_allow_forbid: true
+    hierarchy_override:
+      require_priority_rule: true
+      allowed_priority_sources: [rule18, restricted_visibility, vessel_status]
+    area_override:
+      allowed_area_sources: [channel, tss, restricted_visibility]
+    mixed:
+      require_two_or_more_sources: true
+
+label_consistency_checks:
+  required_rule_families:
+    min_total_triggered_rules: 4
+  required_outputs:
+    - labels.triggered_rules
+    - labels.target_summaries
+    - labels.primitive_ledger_summary
+    - labels.suppressed_rules
+    - labels.explanation_steps
+    - labels.maneuver_allowed
+    - labels.maneuver_forbidden
+  arbitration_checks:
+    require_global_resolution_nontrivial: true
+    require_suppression_or_conflict: true
+    require_multiple_target_dependency: true
+    target_removal_sensitivity: true
+
+raw_candidate_schema:
+  required_top_level_fields:
+    - sample_id
+    - pattern
+    - source_mode
+    - generator_version
+    - candidate_seed
+    - family_latent
+    - scene_spec
+    - inputs
+    - labels
+  family_latent_required_fields:
+    - num_effective_targets
+    - spatial_topology
+    - suppression_mechanism
+    - urgency_band
+    - visibility_mode
+    - target_status_mix
+  scene_spec_required_fields:
+    - seed
+    - domain
+    - visibility
+    - snapshot_time_s
+    - duration_s
+    - ownship
+    - targets
+
+rejection_conditions:
+  - fewer_than_3_effective_targets
+  - no_global_resolution
+  - no_suppression_and_no_conflict
+  - final_labels_explainable_by_single_target
+  - topology_not_matching_latent
+  - urgency_band_not_matching_real_cpa_tcpa

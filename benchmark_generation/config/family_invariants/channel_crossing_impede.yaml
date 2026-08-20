@@ -1,0 +1,26 @@
+family_name: channel_crossing_impede
+goal: >
+  Evaluate whether a model can reason about narrow-channel semantics, including
+  keep-to-starboard-side, crossing constraints, and not-to-impede obligations.
+
+required:
+  - channel_context_valid == true
+  - triggered_rules contain rule9_family_or_equivalent_channel_semantics == true
+  - final_explanation depends_on_channel_context == true
+
+preferred:
+  - ordinary_crossing_and_channel_semantics coexist == true
+  - impede_or_not_to_impede explicitly_relevant == true
+
+forbidden:
+  - sample_reducible_to_open_water_crossing == true
+  - final_labels_unchanged_after_removing_channel_context == true
+
+decision_dependence_tests:
+  - name: channel_context_ablation
+    description: >
+      Remove channel geometry/context and recompute interpretation.
+      Applicable rules or final labels must change.
+  - name: semantic_mode_check
+    description: >
+      Ensure at least one channel-specific reasoning path is used, not only generic crossing.

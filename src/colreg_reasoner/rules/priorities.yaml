@@ -1,0 +1,26 @@
+# Baseline priority policy for conflict resolution.
+# Higher number => higher priority.
+# This policy is intentionally simple and auditable; adjust as needed.
+policy_version: 1
+buckets:
+  domain:
+    priority: 100
+    articles: ["Rule 19", "Rule 35"]
+  area:
+    priority: 80
+    articles: ["Rule 9", "Rule 10"]
+  responsibility:
+    priority: 70
+    articles: ["Rule 18"]
+  encounter:
+    priority: 60
+    articles: ["Rule 13", "Rule 14", "Rule 15", "Rule 16", "Rule 17"]
+  in_sight:
+    priority: 55
+    articles: ["Rule 11", "Rule 34", "Rule 12"]
+  general:
+    priority: 40
+    articles: ["Rule 5", "Rule 6", "Rule 7", "Rule 8"]
+  lights_shapes:
+    priority: 50
+    articles: ["Rule 23", "Rule 24", "Rule 25", "Rule 26", "Rule 27", "Rule 28", "Rule 29", "Rule 30"]

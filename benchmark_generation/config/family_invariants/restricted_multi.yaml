@@ -1,0 +1,29 @@
+family_name: restricted_multi
+goal: >
+  Evaluate whether a model can resolve non-trivial multi-target collision-avoidance
+  obligations under global arbitration, rather than merely applying a single local rule.
+
+required:
+  - effective_participants >= 3
+  - global_resolution_nontrivial == true
+  - explanation.global_stage.nonempty == true
+  - final_labels.depend_on_multiple_targets == true
+
+preferred:
+  - suppression_records.nonempty == true
+  - conflict_or_tension_count >= 1
+
+forbidden:
+  - all_final_labels_explainable_by_single_target == true
+  - effective_participants < 3
+  - no_change_under_target_removal == true
+
+decision_dependence_tests:
+  - name: target_removal_sensitivity
+    description: >
+      Remove each effective target one-by-one and recompute final labels.
+      At least one removal must change retained maneuvers or forbidden maneuvers.
+  - name: multi_target_contribution
+    description: >
+      At least two distinct targets must contribute obligations that survive into
+      the global explanation or suppression chain.

@@ -1,0 +1,47 @@
+schema_version: benchmark_v3_global_config
+benchmark_name: colreg_capability_structured_benchmark
+benchmark_version: v3_scaffold
+
+generation:
+  candidate_pool_oversample_ratio:
+    train: 1.8
+    val: 1.8
+    test: 2.0
+  random_seed_policy:
+    mode: stored_per_candidate
+    require_candidate_seed: true
+
+sample_schema:
+  required_top_level_fields:
+    - sample_id
+    - pattern
+    - inputs
+    - labels
+    - generation_meta
+
+generation_meta:
+  schema_version: genmeta_v1
+  required_blocks:
+    - generator
+    - scene_context
+    - vessel_population
+    - interaction_structure
+    - family_semantics
+    - resolution_structure
+    - signatures
+    - quality_flags
+
+file_conventions:
+  raw_pool_file: candidates_raw.jsonl
+  annotated_pool_file: candidates_annotated.jsonl
+  annotated_index_file: generation_meta_index.jsonl
+  accepted_pool_file: accepted_candidates.jsonl
+  accepted_index_file: accepted_meta_index.jsonl
+  release_all_file: all_release_samples.jsonl
+  release_index_file: all_release_meta_index.jsonl
+
+release_policy:
+  require_fixed_split_manifest: true
+  require_family_coverage_report: true
+  require_diversity_report: true
+  require_acceptance_report: true

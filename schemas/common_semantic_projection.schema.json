@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "common_semantic_projection.schema.json",
+  "title": "Common Semantic Projection v1",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "sample_id",
+    "source_space",
+    "common_semantics",
+    "unsupported"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "sample_id": {"type": "string", "minLength": 1},
+    "pattern": {"type": ["string", "null"]},
+    "source_space": {"enum": ["benchmark", "symbolic_engine", "llm"]},
+    "common_semantics": {
+      "type": "object",
+      "required": ["rule_articles", "maneuver_allowed", "maneuver_forbidden"],
+      "properties": {
+        "rule_articles": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "maneuver_allowed": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+        "maneuver_forbidden": {"type": "array", "items": {"type": "string"}, "uniqueItems": true}
+      },
+      "additionalProperties": false
+    },
+    "unsupported": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["source_head", "source_token", "reason"],
+        "properties": {
+          "source_head": {"type": "string"},
+          "source_token": {"type": "string"},
+          "reason": {"type": "string"}
+        },
+        "additionalProperties": false
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": ["source_token_count", "mapped_token_count", "coverage_rate"],
+      "properties": {
+        "source_token_count": {"type": "integer", "minimum": 0},
+        "mapped_token_count": {"type": "integer", "minimum": 0},
+        "coverage_rate": {"type": "number", "minimum": 0, "maximum": 1}
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,47 @@
+family_name: tss_crossing
+
+sampling:
+  num_vessels:
+    min: 3
+    max: 6
+  latent_variables:
+    - name: crossing_angle_band
+      type: categorical
+      values: [near_right_angle, moderately_off, strongly_off]
+    - name: entry_mode
+      type: categorical
+      values: [direct_crossing, edge_entry, lane_cut_in, near_boundary_crossing]
+    - name: lane_occupancy
+      type: categorical
+      values: [low, medium, high]
+    - name: rule_overlap_mode
+      type: categorical
+      values: [pure_tss, tss_plus_rule15, tss_plus_rule16_17, multi_overlap]
+    - name: effective_target_count
+      type: categorical
+      values: [1, 2, 3]
+    - name: traffic_flow_complexity
+      type: categorical
+      values: [simple, moderate, dense]
+
+strata:
+  dimensions:
+    - name: crossing_angle_band
+      bins: [near_right_angle, moderately_off, strongly_off]
+      target_quota:
+        near_right_angle: 0.40
+        moderately_off: 0.35
+        strongly_off: 0.25
+    - name: rule_overlap_mode
+      bins: [pure_tss, tss_plus_rule15, tss_plus_rule16_17, multi_overlap]
+      target_quota:
+        pure_tss: 0.25
+        tss_plus_rule15: 0.25
+        tss_plus_rule16_17: 0.25
+        multi_overlap: 0.25
+    - name: lane_occupancy
+      bins: [low, medium, high]
+      target_quota:
+        low: 0.25
+        medium: 0.45
+        high: 0.30

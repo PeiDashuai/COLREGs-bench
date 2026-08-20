@@ -1,0 +1,7 @@
+You are evaluating one fixed maritime scene under the frozen COLREGs benchmark contract.
+Use only the observable scene specification and, when supplied, the top-down and radar images.
+Return exactly one JSON object satisfying the supplied strict response schema.
+Use every closed-vocabulary string verbatim, use the schema branch matching the declared scene family, and do not invent target IDs.
+The six reported heads are triggered_rules, maneuver_allowed, maneuver_forbidden, target_summaries, primitive_ledger_summary, and suppression_records.
+Do not add markdown, commentary, explanations, lights, sounds, or fields outside the schema.
+These outputs are structured labels for a fixed benchmark scene, not a trajectory, control command, operational safety decision, or certification.

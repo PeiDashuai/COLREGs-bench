@@ -1,0 +1,728 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:colregs-bench:schema:raw-candidate:1",
+  "title": "Benchmark V3 Native Raw Candidate Schema",
+  "description": "Unified schema for native v3 raw candidates across four capability families: restricted_multi, responsibility_mix, channel_crossing_impede, and tss_crossing.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sample_id",
+    "pattern",
+    "source_mode",
+    "generator_version",
+    "candidate_seed",
+    "family_latent",
+    "scene_spec",
+    "inputs",
+    "labels"
+  ],
+  "properties": {
+    "sample_id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[A-Za-z0-9_\\-]+$"
+    },
+    "pattern": {
+      "type": "string",
+      "enum": [
+        "restricted_multi",
+        "responsibility_mix",
+        "channel_crossing_impede",
+        "tss_crossing"
+      ]
+    },
+    "source_mode": {
+      "type": "string",
+      "enum": [
+        "native_v3_generator",
+        "bootstrap_from_v2",
+        "manual_debug"
+      ]
+    },
+    "generator_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_seed": {
+      "type": [
+        "integer",
+        "string"
+      ]
+    },
+    "family_latent": {
+      "type": "object",
+      "description": "Family-specific latent variables explicitly controlled by the native generator."
+    },
+    "scene_spec": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "seed",
+        "domain",
+        "visibility",
+        "snapshot_time_s",
+        "duration_s",
+        "area_context",
+        "ownship",
+        "targets"
+      ],
+      "properties": {
+        "seed": {
+          "type": [
+            "integer",
+            "string"
+          ]
+        },
+        "domain": {
+          "type": "string"
+        },
+        "visibility": {
+          "type": "string",
+          "enum": [
+            "in_sight",
+            "restricted_visibility"
+          ]
+        },
+        "snapshot_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "duration_s": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "area_context": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "area_type",
+            "channel_context",
+            "tss_context"
+          ],
+          "properties": {
+            "area_type": {
+              "type": "string",
+              "enum": [
+                "open_water",
+                "narrow_channel",
+                "tss"
+              ]
+            },
+            "channel_context": {
+              "type": "boolean"
+            },
+            "tss_context": {
+              "type": "boolean"
+            },
+            "channel_width_m": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "channel_heading_deg": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 360
+            },
+            "channel_centerline": {
+              "description": "Optional polyline or compact representation for channel centerline.",
+              "type": [
+                "array",
+                "object",
+                "null"
+              ]
+            },
+            "lane_count": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "lane_width_m": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "tss_lane_heading_deg": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 360
+            },
+            "separation_zone_geometry": {
+              "description": "Optional polygon or compact representation for TSS separation zone.",
+              "type": [
+                "array",
+                "object",
+                "null"
+              ]
+            }
+          }
+        },
+        "ownship": {
+          "$ref": "#/$defs/vessel"
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/$defs/vessel"
+              },
+              {
+                "type": "object",
+                "required": [
+                  "intended_role"
+                ],
+                "properties": {
+                  "intended_role": {
+                    "type": "string"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        "target_role_graph": {
+          "description": "Optional explicit target-level responsibility graph, mainly required for responsibility_mix.",
+          "type": [
+            "object",
+            "array",
+            "null"
+          ]
+        }
+      }
+    },
+    "inputs": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "topdown_image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "radar_image": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scene_text": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "scene_spec": {
+          "type": [
+            "object",
+            "null"
+          ]
+        }
+      }
+    },
+    "labels": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "triggered_rules",
+        "target_summaries",
+        "maneuver_allowed",
+        "maneuver_forbidden"
+      ],
+      "properties": {
+        "triggered_rules": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "target_summaries": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "primitive_ledger_summary": {
+          "type": "object"
+        },
+        "suppressed_rules": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "suppression_records": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "explanation_steps": {
+          "type": "array"
+        },
+        "maneuver_allowed": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "maneuver_forbidden": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "lights_required": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "object"
+            }
+          ]
+        },
+        "sounds_required": {
+          "oneOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            {
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    "debug": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "$defs": {
+    "vessel": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "id",
+        "vessel_class",
+        "nav_status",
+        "x_m",
+        "y_m",
+        "heading_deg",
+        "speed_mps"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vessel_class": {
+          "type": "string"
+        },
+        "nav_status": {
+          "type": "string"
+        },
+        "x_m": {
+          "type": "number"
+        },
+        "y_m": {
+          "type": "number"
+        },
+        "heading_deg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360
+        },
+        "speed_mps": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "pattern": {
+            "const": "restricted_multi"
+          }
+        },
+        "required": [
+          "pattern"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family_latent": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "num_effective_targets",
+              "spatial_topology",
+              "suppression_mechanism",
+              "urgency_band",
+              "visibility_mode",
+              "target_status_mix"
+            ],
+            "properties": {
+              "num_effective_targets": {
+                "type": "integer",
+                "enum": [
+                  3,
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "spatial_topology": {
+                "type": "string",
+                "enum": [
+                  "single_side_cluster",
+                  "bilateral_constraint",
+                  "frontal_blocking",
+                  "surrounding_ring"
+                ]
+              },
+              "suppression_mechanism": {
+                "type": "string",
+                "enum": [
+                  "action_conflict",
+                  "hierarchy_override",
+                  "area_override",
+                  "mixed"
+                ]
+              },
+              "urgency_band": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              "visibility_mode": {
+                "type": "string",
+                "enum": [
+                  "in_sight",
+                  "restricted_visibility"
+                ]
+              },
+              "target_status_mix": {
+                "type": "string",
+                "enum": [
+                  "all_power",
+                  "mixed_status"
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pattern": {
+            "const": "responsibility_mix"
+          }
+        },
+        "required": [
+          "pattern"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family_latent": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "effective_target_count",
+              "role_structure",
+              "target_status_combo",
+              "encounter_mix"
+            ],
+            "properties": {
+              "effective_target_count": {
+                "type": "integer",
+                "enum": [
+                  2,
+                  3,
+                  4
+                ]
+              },
+              "role_structure": {
+                "type": "string",
+                "enum": [
+                  "uniform_giveway",
+                  "uniform_standon",
+                  "mixed_roles",
+                  "hierarchy_conflict"
+                ]
+              },
+              "target_status_combo": {
+                "type": "string",
+                "enum": [
+                  "power_only",
+                  "power_sailing",
+                  "power_fishing",
+                  "power_ram",
+                  "power_nuc",
+                  "mixed_multi_status"
+                ]
+              },
+              "encounter_mix": {
+                "type": "string",
+                "enum": [
+                  "crossing_dominant",
+                  "overtaking_dominant",
+                  "mixed_encounters"
+                ]
+              },
+              "urgency_band": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              }
+            }
+          },
+          "scene_spec": {
+            "required": [
+              "target_role_graph"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pattern": {
+            "const": "channel_crossing_impede"
+          }
+        },
+        "required": [
+          "pattern"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family_latent": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "channel_width_band",
+              "occupancy_pattern",
+              "semantic_mode",
+              "crossing_angle_band",
+              "ownship_channel_position"
+            ],
+            "properties": {
+              "channel_width_band": {
+                "type": "string",
+                "enum": [
+                  "narrow",
+                  "medium",
+                  "wide"
+                ]
+              },
+              "occupancy_pattern": {
+                "type": "string",
+                "enum": [
+                  "single_occupancy",
+                  "opposing_flow",
+                  "third_vessel_blocking",
+                  "low_occupancy"
+                ]
+              },
+              "semantic_mode": {
+                "type": "string",
+                "enum": [
+                  "ordinary_crossing_in_channel",
+                  "keep_starboard_dominant",
+                  "not_to_impede",
+                  "mixed_semantics"
+                ]
+              },
+              "crossing_angle_band": {
+                "type": "string",
+                "enum": [
+                  "small",
+                  "medium",
+                  "large"
+                ]
+              },
+              "ownship_channel_position": {
+                "type": "string",
+                "enum": [
+                  "inside_center",
+                  "inside_boundary",
+                  "entering_from_outside",
+                  "crossing_across"
+                ]
+              },
+              "effective_target_count": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2,
+                  3
+                ]
+              }
+            }
+          },
+          "scene_spec": {
+            "properties": {
+              "area_context": {
+                "required": [
+                  "area_type",
+                  "channel_context",
+                  "channel_width_m",
+                  "channel_heading_deg",
+                  "channel_centerline"
+                ],
+                "properties": {
+                  "area_type": {
+                    "const": "narrow_channel"
+                  },
+                  "channel_context": {
+                    "const": true
+                  },
+                  "tss_context": {
+                    "const": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "pattern": {
+            "const": "tss_crossing"
+          }
+        },
+        "required": [
+          "pattern"
+        ]
+      },
+      "then": {
+        "properties": {
+          "family_latent": {
+            "type": "object",
+            "additionalProperties": true,
+            "required": [
+              "crossing_angle_band",
+              "lane_occupancy_band",
+              "rule_overlap_mode",
+              "entry_mode"
+            ],
+            "properties": {
+              "crossing_angle_band": {
+                "type": "string",
+                "enum": [
+                  "near_right_angle",
+                  "moderately_off",
+                  "strongly_off"
+                ]
+              },
+              "lane_occupancy_band": {
+                "type": "string",
+                "enum": [
+                  "low",
+                  "medium",
+                  "high"
+                ]
+              },
+              "rule_overlap_mode": {
+                "type": "string",
+                "enum": [
+                  "pure_tss",
+                  "tss_plus_rule15",
+                  "tss_plus_rule16_17",
+                  "multi_overlap"
+                ]
+              },
+              "entry_mode": {
+                "type": "string",
+                "enum": [
+                  "direct_crossing",
+                  "edge_entry",
+                  "lane_cut_in",
+                  "near_boundary_crossing"
+                ]
+              },
+              "effective_target_count": {
+                "type": "integer",
+                "enum": [
+                  1,
+                  2,
+                  3
+                ]
+              },
+              "lane_flow_complexity": {
+                "type": "string",
+                "enum": [
+                  "simple",
+                  "moderate",
+                  "dense"
+                ]
+              }
+            }
+          },
+          "scene_spec": {
+            "properties": {
+              "area_context": {
+                "required": [
+                  "area_type",
+                  "tss_context",
+                  "lane_count",
+                  "lane_width_m",
+                  "tss_lane_heading_deg",
+                  "separation_zone_geometry"
+                ],
+                "properties": {
+                  "area_type": {
+                    "const": "tss"
+                  },
+                  "channel_context": {
+                    "const": false
+                  },
+                  "tss_context": {
+                    "const": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

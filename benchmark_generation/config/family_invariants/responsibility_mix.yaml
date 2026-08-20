@@ -1,0 +1,27 @@
+family_name: responsibility_mix
+goal: >
+  Evaluate whether a model can identify heterogeneous responsibility relations
+  across multiple targets and correctly map role structure into actions.
+
+required:
+  - responsibility_relation_types >= 2
+  - triggered_rules contain responsibility_relevant_rules == true
+  - final_labels depend_on_vessel_class_or_nav_status == true
+
+preferred:
+  - ownship_role_mixed_across_targets == true
+  - at_least_one_nonordinary_responsibility_relation == true
+
+forbidden:
+  - all_targets_reduce_to_same_ordinary_crossing_relation == true
+  - no_effect_of_status_or_class_on_final_labels == true
+
+decision_dependence_tests:
+  - name: class_status_ablation
+    description: >
+      Replace vessel classes/statuses with generic power-driven underway states.
+      The applicable rules or final labels must change.
+  - name: role_mixture_check
+    description: >
+      Ownship should not have a single uniform role across all effective targets
+      in all accepted samples.

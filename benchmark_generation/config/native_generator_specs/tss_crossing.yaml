@@ -1,0 +1,147 @@
+schema_version: native_generator_spec_v1
+family_name: tss_crossing
+generator_version: tss_crossing_native_v1
+
+benchmark_goal: >
+  Generate native TSS crossing scenes in which Rule 10 family reasoning, crossing angle,
+  lane occupancy, and overlap with generic collision-avoidance rules are explicitly controlled.
+
+latent_variables:
+  - name: crossing_angle_band
+    type: categorical
+    required: true
+    values: [near_right_angle, moderately_off, strongly_off]
+  - name: lane_occupancy_band
+    type: categorical
+    required: true
+    values: [low, medium, high]
+  - name: rule_overlap_mode
+    type: categorical
+    required: true
+    values: [pure_tss, tss_plus_rule15, tss_plus_rule16_17, multi_overlap]
+  - name: entry_mode
+    type: categorical
+    required: true
+    values: [direct_crossing, edge_entry, lane_cut_in, near_boundary_crossing]
+  - name: effective_target_count
+    type: categorical
+    required: false
+    values: [1, 2, 3]
+  - name: lane_flow_complexity
+    type: categorical
+    required: false
+    values: [simple, moderate, dense]
+
+soft_target_distribution:
+  crossing_angle_band:
+    near_right_angle: 0.40
+    moderately_off: 0.35
+    strongly_off: 0.25
+  lane_occupancy_band:
+    low: 0.25
+    medium: 0.45
+    high: 0.30
+  rule_overlap_mode:
+    pure_tss: 0.25
+    tss_plus_rule15: 0.25
+    tss_plus_rule16_17: 0.25
+    multi_overlap: 0.25
+
+scene_builder:
+  area_context:
+    area_type: tss
+    channel_context: false
+    tss_context: true
+  tss_geometry:
+    lane_count_range: [2, 4]
+    lane_width_m_range: [150.0, 500.0]
+    lane_heading_deg_range: [0.0, 359.0]
+  ownship_constraints:
+    direct_crossing:
+      require_path_crosses_lane_set: true
+    edge_entry:
+      require_start_near_boundary: true
+    lane_cut_in:
+      require_partial_lane_alignment_before_crossing: true
+    near_boundary_crossing:
+      require_crossing_close_to_boundary: true
+  angle_constraints:
+    near_right_angle:
+      crossing_angle_deg_range: [75.0, 105.0]
+    moderately_off:
+      crossing_angle_deg_range:
+        - [60.0, 75.0]
+        - [105.0, 120.0]
+    strongly_off:
+      crossing_angle_deg_range:
+        - [0.0, 60.0]
+        - [120.0, 180.0]
+  overlap_constraints:
+    pure_tss:
+      require_rule10_core_only: true
+    tss_plus_rule15:
+      require_rule10_core: true
+      require_rule15_overlap: true
+    tss_plus_rule16_17:
+      require_rule10_core: true
+      require_rule16_or_17_overlap: true
+    multi_overlap:
+      require_rule10_core: true
+      require_multiple_non_rule10_overlaps: true
+  occupancy_constraints:
+    low:
+      max_effective_targets: 1
+    medium:
+      max_effective_targets: 2
+    high:
+      min_effective_targets: 2
+
+label_consistency_checks:
+  required_outputs:
+    - labels.triggered_rules
+    - labels.target_summaries
+    - labels.explanation_steps
+    - labels.maneuver_allowed
+    - labels.maneuver_forbidden
+  tss_checks:
+    require_rule10_family: true
+    require_tss_structure_dependence: true
+    tss_ablation_changes_labels: true
+    overlap_mode_match: true
+    crossing_angle_band_match: true
+
+raw_candidate_schema:
+  required_top_level_fields:
+    - sample_id
+    - pattern
+    - source_mode
+    - generator_version
+    - candidate_seed
+    - family_latent
+    - scene_spec
+    - inputs
+    - labels
+  family_latent_required_fields:
+    - crossing_angle_band
+    - lane_occupancy_band
+    - rule_overlap_mode
+    - entry_mode
+  scene_spec_required_fields:
+    - seed
+    - area_context
+    - ownship
+    - targets
+  area_context_required_fields:
+    - area_type
+    - tss_context
+    - lane_count
+    - lane_width_m
+    - tss_lane_heading_deg
+    - separation_zone_geometry
+
+rejection_conditions:
+  - no_rule10_family
+  - crossing_angle_not_matching_latent
+  - overlap_mode_not_realized
+  - lane_occupancy_not_realized
+  - tss_ablation_not_affecting_interpretation

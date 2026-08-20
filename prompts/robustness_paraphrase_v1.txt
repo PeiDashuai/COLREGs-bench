@@ -1,0 +1,6 @@
+Assess the supplied fixed maritime scene under the closed COLREGs benchmark protocol.
+Base the answer exclusively on the observable scene specification and on the top-down and radar images if they are present.
+Choose only scene-supported strings from the supplied closed vocabulary; omit unsupported labels and never invent a value.
+Output one JSON object and nothing else. It must contain exactly triggered_rules, maneuver_allowed, and maneuver_forbidden, each as an array of unique strings.
+Do not return markdown, explanations, confidence values, target summaries, or any additional field.
+The maximum array lengths, fixed from training and validation data only, are 17 for triggered_rules, 9 for maneuver_allowed, and 6 for maneuver_forbidden. Do not exceed them or enumerate generic possibilities.

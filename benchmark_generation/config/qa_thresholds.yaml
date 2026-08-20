@@ -1,0 +1,34 @@
+schema_version: benchmark_v3_qa_thresholds
+
+duplicate_control:
+  weighted_distance:
+    geometry_weight: 0.35
+    rule_weight: 0.25
+    explanation_weight: 0.20
+    final_label_weight: 0.20
+  reject_threshold:
+    restricted_multi: 0.15
+    responsibility_mix: 0.15
+    channel_crossing_impede: 0.15
+    tss_crossing: 0.15
+
+diversity_requirements:
+  per_family_min_strata_coverage: 0.85
+  per_family_max_single_stratum_share: 0.35
+  per_family_min_nn_distance_median:
+    restricted_multi: 0.20
+    responsibility_mix: 0.20
+    channel_crossing_impede: 0.20
+    tss_crossing: 0.20
+
+plausibility_requirements:
+  require_kinematics_feasible: true
+  require_context_semantics_causal: true
+  reject_semantically_empty_background: true
+  reject_impossible_vessel_status_combinations: true
+
+release_checks:
+  require_all_families_pass_invariant_coverage: true
+  require_all_families_pass_diversity_thresholds: true
+  require_all_families_pass_duplicate_thresholds: true
+  require_all_families_pass_plausibility_thresholds: true

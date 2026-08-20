@@ -1,0 +1,2159 @@
+{
+  "$id": "gpt_fullfields_prediction_v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "maneuver_allowed": {
+      "items": {
+        "enum": [
+          "ADJUST_HEADING_TOWARD_SAFE_CROSSING_ANGLE",
+          "AVOID_CHANNEL_COMPRESSION",
+          "AVOID_IMPEDING_CHANNEL_TRAFFIC",
+          "CHECK_RECIPROCAL_CHANNEL_TRAFFIC",
+          "CORRECT_CROSSING_ANGLE_SUBSTANTIALLY",
+          "CROSS_AT_MODERATE_CHANNEL_ENTRY_ANGLE",
+          "CROSS_AT_NEAR_RIGHT_ANGLE",
+          "CROSS_AT_SMALL_CHANNEL_ENTRY_ANGLE",
+          "CROSS_AT_STEEP_CHANNEL_ENTRY_ANGLE",
+          "CROSS_ONLY_IF_SAFE_AND_CLEAR",
+          "DO_NOT_IMPEDE_CHANNEL_TRAFFIC",
+          "GIVE_WAY_IF_REQUIRED",
+          "KEEP_LOOKOUT",
+          "KEEP_SAFE_SPEED",
+          "KEEP_TO_STARBOARD_WITHIN_CHANNEL",
+          "MAINTAIN_CLEAR_TSS_CROSSING_INTENT",
+          "MAINTAIN_EFFECTIVE_LOOKOUT",
+          "MAINTAIN_STANDON_IF_SAFE",
+          "MONITOR_AND_PREPARE",
+          "NAVIGATE_WITH_RESTRICTED_VISIBILITY_CAUTION",
+          "PREFER_MINIMAL_GLOBALLY_SAFE_MANEUVER",
+          "PRIORITIZE_CLOSEST_RISK",
+          "PRIORITIZE_HIGHER_ORDER_RESPONSIBILITY",
+          "PROCEED_AT_SAFE_SPEED",
+          "PROCEED_SAFE_SPEED",
+          "REASON_OVER_ALL_RELEVANT_TARGETS",
+          "RESOLVE_AHEAD_BLOCKING_WITH_SIDE_AWARE_ACTION",
+          "RESOLVE_MULTIPLE_CHANNEL_CONSTRAINTS",
+          "RESPECT_NARROW_CHANNEL_CONSTRAINTS",
+          "ROLE_AWARE_ACTION_SELECTION",
+          "SELECT_BALANCED_CONFLICT_RESOLVING_ACTION",
+          "TAKE_EARLY_SUBSTANTIAL_ACTION",
+          "TAKE_IMMEDIATE_AVOIDING_ACTION",
+          "WAIT_OR_ADJUST_BEFORE_CROSSING"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "maneuver_forbidden": {
+      "items": {
+        "enum": [
+          "ACT_ON_SINGLE_TARGET_ONLY",
+          "ASSUME_VISUAL_CERTAINTY",
+          "CROSS_AT_SMALL_ANGLE",
+          "CROSS_WITHOUT_CLEARANCE",
+          "DEFER_ACTION",
+          "DRIFT_TO_PORT_WITHIN_CHANNEL",
+          "FORCE_CROSSING_THROUGH_CHANNEL_TRAFFIC",
+          "IGNORE_CHANNEL_CONTEXT",
+          "IGNORE_CONTEXTUAL_OVERRIDE",
+          "IGNORE_HIGHER_PRIORITY_CONSTRAINT",
+          "IGNORE_PRIORITY_TARGET",
+          "KEEP_COURSE_WITHOUT_GLOBAL_CHECK",
+          "MAINTAIN_STRONGLY_OFF_CROSSING",
+          "NAIVE_SINGLE_TARGET_ACTION",
+          "OPEN_WATER_ONLY_REASONING",
+          "REDUCE_TO_SINGLE_OPEN_WATER_CROSSING_RULE",
+          "SQUEEZE_THROUGH_BOUNDARY_GAP",
+          "TURN_PORT_IF_CONFLICTING",
+          "USE_SINGLE_TARGET_TEMPLATE"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    },
+    "primitive_ledger_summary": {
+      "anyOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "family_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "observed_crossing_angle_band": {
+                  "enum": [
+                    "large",
+                    "medium",
+                    "small"
+                  ],
+                  "type": "string"
+                },
+                "occupancy_pattern": {
+                  "enum": [
+                    "low_occupancy",
+                    "opposing_flow",
+                    "single_occupancy",
+                    "third_vessel_blocking"
+                  ],
+                  "type": "string"
+                },
+                "ownship_channel_position": {
+                  "enum": [
+                    "crossing_across",
+                    "entering_from_outside",
+                    "inside_boundary",
+                    "inside_center"
+                  ],
+                  "type": "string"
+                },
+                "semantic_mode": {
+                  "enum": [
+                    "keep_starboard_dominant",
+                    "mixed_semantics",
+                    "not_to_impede",
+                    "ordinary_crossing_in_channel"
+                  ],
+                  "type": "string"
+                }
+              },
+              "required": [
+                "semantic_mode",
+                "occupancy_pattern",
+                "ownship_channel_position",
+                "observed_crossing_angle_band"
+              ],
+              "type": "object"
+            },
+            "maneuver": {
+              "additionalProperties": false,
+              "properties": {
+                "CHANNEL_CONTEXT_CONTROL": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules"
+                  ],
+                  "type": "object"
+                },
+                "COLLISION_RISK_CONTROL": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "CHANNEL_CONTEXT_CONTROL",
+                "COLLISION_RISK_CONTROL"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "maneuver",
+            "family_contract"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "maneuver": {
+              "additionalProperties": false,
+              "properties": {
+                "ROLE_RESPONSIBILITY_CONTROL": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules"
+                  ],
+                  "type": "object"
+                },
+                "URGENCY_AWARE_ACTION_SCALING": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "observed_urgency": {
+                      "enum": [
+                        "high",
+                        "low",
+                        "medium"
+                      ],
+                      "type": "string"
+                    },
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules",
+                    "observed_urgency"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "ROLE_RESPONSIBILITY_CONTROL",
+                "URGENCY_AWARE_ACTION_SCALING"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "maneuver"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "maneuver": {
+              "additionalProperties": false,
+              "properties": {
+                "allowed": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "primitive": {
+                            "enum": [
+                              "ACT_ON_SINGLE_TARGET_ONLY",
+                              "ADJUST_HEADING_TOWARD_SAFE_CROSSING_ANGLE",
+                              "ASSUME_VISUAL_CERTAINTY",
+                              "AVOID_CHANNEL_COMPRESSION",
+                              "AVOID_IMPEDING_CHANNEL_TRAFFIC",
+                              "CHECK_RECIPROCAL_CHANNEL_TRAFFIC",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution.",
+                              "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                              "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                              "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                              "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                              "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                              "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                              "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                              "COLREG_R05_LOOKOUT",
+                              "COLREG_R06_SAFE_SPEED",
+                              "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                              "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                              "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                              "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                              "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                              "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                              "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                              "COLREG_R10_CROSSING",
+                              "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                              "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                              "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                              "COLREG_R10_TSS_GENERAL",
+                              "COLREG_R13_OVERTAKING",
+                              "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                              "COLREG_R16_GIVEWAY_MANEUVER",
+                              "COLREG_R17_STANDON",
+                              "COLREG_R18_RESPONSIBILITIES",
+                              "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                              "COLREG_R19_RESTRICTED_VISIBILITY",
+                              "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                              "COLREG_R9_NARROW_CHANNEL_GENERAL",
+                              "CORRECT_CROSSING_ANGLE_SUBSTANTIALLY",
+                              "CROSS_AT_MODERATE_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_NEAR_RIGHT_ANGLE",
+                              "CROSS_AT_SMALL_ANGLE",
+                              "CROSS_AT_SMALL_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_STEEP_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_ONLY_IF_SAFE_AND_CLEAR",
+                              "CROSS_WITHOUT_CLEARANCE",
+                              "DEFER_ACTION",
+                              "DO_NOT_IMPEDE_CHANNEL_TRAFFIC",
+                              "DRIFT_TO_PORT_WITHIN_CHANNEL",
+                              "FORCE_CROSSING_THROUGH_CHANNEL_TRAFFIC",
+                              "GIVE_WAY_IF_REQUIRED",
+                              "GLOBAL_MULTI_TARGET_RESOLUTION",
+                              "IGNORE_CHANNEL_CONTEXT",
+                              "IGNORE_CONTEXTUAL_OVERRIDE",
+                              "IGNORE_HIGHER_PRIORITY_CONSTRAINT",
+                              "IGNORE_PRIORITY_TARGET",
+                              "KEEP_COURSE",
+                              "KEEP_COURSE_WITHOUT_GLOBAL_CHECK",
+                              "KEEP_LOOKOUT",
+                              "KEEP_SAFE_SPEED",
+                              "KEEP_TO_STARBOARD_WITHIN_CHANNEL",
+                              "MAINTAIN_CLEAR_TSS_CROSSING_INTENT",
+                              "MAINTAIN_EFFECTIVE_LOOKOUT",
+                              "MAINTAIN_STANDON_IF_SAFE",
+                              "MAINTAIN_STRONGLY_OFF_CROSSING",
+                              "MONITOR_AND_PREPARE",
+                              "NAIVE_SINGLE_TARGET_ACTION",
+                              "NAVIGATE_WITH_RESTRICTED_VISIBILITY_CAUTION",
+                              "OPEN_WATER_ONLY_REASONING",
+                              "PREFER_MINIMAL_GLOBALLY_SAFE_MANEUVER",
+                              "PRIORITIZE_CLOSEST_RISK",
+                              "PRIORITIZE_HIGHER_ORDER_RESPONSIBILITY",
+                              "PROCEED_AT_SAFE_SPEED",
+                              "PROCEED_SAFE_SPEED",
+                              "REASON_OVER_ALL_RELEVANT_TARGETS",
+                              "REDUCE_TO_SINGLE_OPEN_WATER_CROSSING_RULE",
+                              "RESOLVE_AHEAD_BLOCKING_WITH_SIDE_AWARE_ACTION",
+                              "RESOLVE_MULTIPLE_CHANNEL_CONSTRAINTS",
+                              "RESPECT_NARROW_CHANNEL_CONSTRAINTS",
+                              "ROLE_AWARE_ACTION_SELECTION",
+                              "SELECT_BALANCED_CONFLICT_RESOLVING_ACTION",
+                              "SQUEEZE_THROUGH_BOUNDARY_GAP",
+                              "TAKE_EARLY_SUBSTANTIAL_ACTION",
+                              "TAKE_IMMEDIATE_AVOIDING_ACTION",
+                              "TURN_PORT_IF_CONFLICTING",
+                              "USE_SINGLE_TARGET_TEMPLATE",
+                              "WAIT_OR_ADJUST_BEFORE_CROSSING",
+                              "action_conflict",
+                              "allow",
+                              "area_override",
+                              "crossing_across",
+                              "entering_from_outside",
+                              "hierarchy_override",
+                              "high",
+                              "inside_boundary",
+                              "inside_center",
+                              "keep_starboard_dominant",
+                              "large",
+                              "low",
+                              "low_occupancy",
+                              "medium",
+                              "mixed",
+                              "mixed_semantics",
+                              "not_to_impede",
+                              "opposing_flow",
+                              "ordinary_crossing_in_channel",
+                              "single_occupancy",
+                              "small",
+                              "supp_001",
+                              "t1",
+                              "t2",
+                              "t3",
+                              "t4",
+                              "t5",
+                              "t6",
+                              "third_vessel_blocking",
+                              "unknown"
+                            ],
+                            "type": "string"
+                          },
+                          "support_rules": {
+                            "items": {
+                              "enum": [
+                                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                                "COLREG_R05_LOOKOUT",
+                                "COLREG_R06_SAFE_SPEED",
+                                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                                "COLREG_R10_CROSSING",
+                                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                                "COLREG_R10_TSS_GENERAL",
+                                "COLREG_R13_OVERTAKING",
+                                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                                "COLREG_R16_GIVEWAY_MANEUVER",
+                                "COLREG_R17_STANDON",
+                                "COLREG_R18_RESPONSIBILITIES",
+                                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                                "COLREG_R19_ENGINES_READY",
+                                "COLREG_R19_RESTRICTED_VISIBILITY",
+                                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "primitive",
+                          "support_rules"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "primitive": {
+                            "enum": [
+                              "ACT_ON_SINGLE_TARGET_ONLY",
+                              "ADJUST_HEADING_TOWARD_SAFE_CROSSING_ANGLE",
+                              "ASSUME_VISUAL_CERTAINTY",
+                              "AVOID_CHANNEL_COMPRESSION",
+                              "AVOID_IMPEDING_CHANNEL_TRAFFIC",
+                              "CHECK_RECIPROCAL_CHANNEL_TRAFFIC",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution.",
+                              "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                              "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                              "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                              "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                              "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                              "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                              "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                              "COLREG_R05_LOOKOUT",
+                              "COLREG_R06_SAFE_SPEED",
+                              "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                              "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                              "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                              "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                              "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                              "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                              "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                              "COLREG_R10_CROSSING",
+                              "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                              "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                              "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                              "COLREG_R10_TSS_GENERAL",
+                              "COLREG_R13_OVERTAKING",
+                              "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                              "COLREG_R16_GIVEWAY_MANEUVER",
+                              "COLREG_R17_STANDON",
+                              "COLREG_R18_RESPONSIBILITIES",
+                              "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                              "COLREG_R19_RESTRICTED_VISIBILITY",
+                              "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                              "COLREG_R9_NARROW_CHANNEL_GENERAL",
+                              "CORRECT_CROSSING_ANGLE_SUBSTANTIALLY",
+                              "CROSS_AT_MODERATE_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_NEAR_RIGHT_ANGLE",
+                              "CROSS_AT_SMALL_ANGLE",
+                              "CROSS_AT_SMALL_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_STEEP_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_ONLY_IF_SAFE_AND_CLEAR",
+                              "CROSS_WITHOUT_CLEARANCE",
+                              "DEFER_ACTION",
+                              "DO_NOT_IMPEDE_CHANNEL_TRAFFIC",
+                              "DRIFT_TO_PORT_WITHIN_CHANNEL",
+                              "FORCE_CROSSING_THROUGH_CHANNEL_TRAFFIC",
+                              "GIVE_WAY_IF_REQUIRED",
+                              "GLOBAL_MULTI_TARGET_RESOLUTION",
+                              "IGNORE_CHANNEL_CONTEXT",
+                              "IGNORE_CONTEXTUAL_OVERRIDE",
+                              "IGNORE_HIGHER_PRIORITY_CONSTRAINT",
+                              "IGNORE_PRIORITY_TARGET",
+                              "KEEP_COURSE",
+                              "KEEP_COURSE_WITHOUT_GLOBAL_CHECK",
+                              "KEEP_LOOKOUT",
+                              "KEEP_SAFE_SPEED",
+                              "KEEP_TO_STARBOARD_WITHIN_CHANNEL",
+                              "MAINTAIN_CLEAR_TSS_CROSSING_INTENT",
+                              "MAINTAIN_EFFECTIVE_LOOKOUT",
+                              "MAINTAIN_STANDON_IF_SAFE",
+                              "MAINTAIN_STRONGLY_OFF_CROSSING",
+                              "MONITOR_AND_PREPARE",
+                              "NAIVE_SINGLE_TARGET_ACTION",
+                              "NAVIGATE_WITH_RESTRICTED_VISIBILITY_CAUTION",
+                              "OPEN_WATER_ONLY_REASONING",
+                              "PREFER_MINIMAL_GLOBALLY_SAFE_MANEUVER",
+                              "PRIORITIZE_CLOSEST_RISK",
+                              "PRIORITIZE_HIGHER_ORDER_RESPONSIBILITY",
+                              "PROCEED_AT_SAFE_SPEED",
+                              "PROCEED_SAFE_SPEED",
+                              "REASON_OVER_ALL_RELEVANT_TARGETS",
+                              "REDUCE_TO_SINGLE_OPEN_WATER_CROSSING_RULE",
+                              "RESOLVE_AHEAD_BLOCKING_WITH_SIDE_AWARE_ACTION",
+                              "RESOLVE_MULTIPLE_CHANNEL_CONSTRAINTS",
+                              "RESPECT_NARROW_CHANNEL_CONSTRAINTS",
+                              "ROLE_AWARE_ACTION_SELECTION",
+                              "SELECT_BALANCED_CONFLICT_RESOLVING_ACTION",
+                              "SQUEEZE_THROUGH_BOUNDARY_GAP",
+                              "TAKE_EARLY_SUBSTANTIAL_ACTION",
+                              "TAKE_IMMEDIATE_AVOIDING_ACTION",
+                              "TURN_PORT_IF_CONFLICTING",
+                              "USE_SINGLE_TARGET_TEMPLATE",
+                              "WAIT_OR_ADJUST_BEFORE_CROSSING",
+                              "action_conflict",
+                              "allow",
+                              "area_override",
+                              "crossing_across",
+                              "entering_from_outside",
+                              "hierarchy_override",
+                              "high",
+                              "inside_boundary",
+                              "inside_center",
+                              "keep_starboard_dominant",
+                              "large",
+                              "low",
+                              "low_occupancy",
+                              "medium",
+                              "mixed",
+                              "mixed_semantics",
+                              "not_to_impede",
+                              "opposing_flow",
+                              "ordinary_crossing_in_channel",
+                              "single_occupancy",
+                              "small",
+                              "supp_001",
+                              "t1",
+                              "t2",
+                              "t3",
+                              "t4",
+                              "t5",
+                              "t6",
+                              "third_vessel_blocking",
+                              "unknown"
+                            ],
+                            "type": "string"
+                          },
+                          "support_rules": {
+                            "items": {
+                              "enum": [
+                                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                                "COLREG_R05_LOOKOUT",
+                                "COLREG_R06_SAFE_SPEED",
+                                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                                "COLREG_R10_CROSSING",
+                                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                                "COLREG_R10_TSS_GENERAL",
+                                "COLREG_R13_OVERTAKING",
+                                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                                "COLREG_R16_GIVEWAY_MANEUVER",
+                                "COLREG_R17_STANDON",
+                                "COLREG_R18_RESPONSIBILITIES",
+                                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                                "COLREG_R19_ENGINES_READY",
+                                "COLREG_R19_RESTRICTED_VISIBILITY",
+                                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "targets": {
+                            "items": {
+                              "enum": [
+                                "t1",
+                                "t2",
+                                "t3",
+                                "t4",
+                                "t5",
+                                "t6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "primitive",
+                          "support_rules",
+                          "targets"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                },
+                "forbidden": {
+                  "items": {
+                    "anyOf": [
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "primitive": {
+                            "enum": [
+                              "ACT_ON_SINGLE_TARGET_ONLY",
+                              "ADJUST_HEADING_TOWARD_SAFE_CROSSING_ANGLE",
+                              "ASSUME_VISUAL_CERTAINTY",
+                              "AVOID_CHANNEL_COMPRESSION",
+                              "AVOID_IMPEDING_CHANNEL_TRAFFIC",
+                              "CHECK_RECIPROCAL_CHANNEL_TRAFFIC",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution.",
+                              "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                              "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                              "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                              "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                              "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                              "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                              "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                              "COLREG_R05_LOOKOUT",
+                              "COLREG_R06_SAFE_SPEED",
+                              "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                              "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                              "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                              "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                              "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                              "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                              "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                              "COLREG_R10_CROSSING",
+                              "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                              "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                              "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                              "COLREG_R10_TSS_GENERAL",
+                              "COLREG_R13_OVERTAKING",
+                              "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                              "COLREG_R16_GIVEWAY_MANEUVER",
+                              "COLREG_R17_STANDON",
+                              "COLREG_R18_RESPONSIBILITIES",
+                              "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                              "COLREG_R19_RESTRICTED_VISIBILITY",
+                              "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                              "COLREG_R9_NARROW_CHANNEL_GENERAL",
+                              "CORRECT_CROSSING_ANGLE_SUBSTANTIALLY",
+                              "CROSS_AT_MODERATE_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_NEAR_RIGHT_ANGLE",
+                              "CROSS_AT_SMALL_ANGLE",
+                              "CROSS_AT_SMALL_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_STEEP_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_ONLY_IF_SAFE_AND_CLEAR",
+                              "CROSS_WITHOUT_CLEARANCE",
+                              "DEFER_ACTION",
+                              "DO_NOT_IMPEDE_CHANNEL_TRAFFIC",
+                              "DRIFT_TO_PORT_WITHIN_CHANNEL",
+                              "FORCE_CROSSING_THROUGH_CHANNEL_TRAFFIC",
+                              "GIVE_WAY_IF_REQUIRED",
+                              "GLOBAL_MULTI_TARGET_RESOLUTION",
+                              "IGNORE_CHANNEL_CONTEXT",
+                              "IGNORE_CONTEXTUAL_OVERRIDE",
+                              "IGNORE_HIGHER_PRIORITY_CONSTRAINT",
+                              "IGNORE_PRIORITY_TARGET",
+                              "KEEP_COURSE",
+                              "KEEP_COURSE_WITHOUT_GLOBAL_CHECK",
+                              "KEEP_LOOKOUT",
+                              "KEEP_SAFE_SPEED",
+                              "KEEP_TO_STARBOARD_WITHIN_CHANNEL",
+                              "MAINTAIN_CLEAR_TSS_CROSSING_INTENT",
+                              "MAINTAIN_EFFECTIVE_LOOKOUT",
+                              "MAINTAIN_STANDON_IF_SAFE",
+                              "MAINTAIN_STRONGLY_OFF_CROSSING",
+                              "MONITOR_AND_PREPARE",
+                              "NAIVE_SINGLE_TARGET_ACTION",
+                              "NAVIGATE_WITH_RESTRICTED_VISIBILITY_CAUTION",
+                              "OPEN_WATER_ONLY_REASONING",
+                              "PREFER_MINIMAL_GLOBALLY_SAFE_MANEUVER",
+                              "PRIORITIZE_CLOSEST_RISK",
+                              "PRIORITIZE_HIGHER_ORDER_RESPONSIBILITY",
+                              "PROCEED_AT_SAFE_SPEED",
+                              "PROCEED_SAFE_SPEED",
+                              "REASON_OVER_ALL_RELEVANT_TARGETS",
+                              "REDUCE_TO_SINGLE_OPEN_WATER_CROSSING_RULE",
+                              "RESOLVE_AHEAD_BLOCKING_WITH_SIDE_AWARE_ACTION",
+                              "RESOLVE_MULTIPLE_CHANNEL_CONSTRAINTS",
+                              "RESPECT_NARROW_CHANNEL_CONSTRAINTS",
+                              "ROLE_AWARE_ACTION_SELECTION",
+                              "SELECT_BALANCED_CONFLICT_RESOLVING_ACTION",
+                              "SQUEEZE_THROUGH_BOUNDARY_GAP",
+                              "TAKE_EARLY_SUBSTANTIAL_ACTION",
+                              "TAKE_IMMEDIATE_AVOIDING_ACTION",
+                              "TURN_PORT_IF_CONFLICTING",
+                              "USE_SINGLE_TARGET_TEMPLATE",
+                              "WAIT_OR_ADJUST_BEFORE_CROSSING",
+                              "action_conflict",
+                              "allow",
+                              "area_override",
+                              "crossing_across",
+                              "entering_from_outside",
+                              "hierarchy_override",
+                              "high",
+                              "inside_boundary",
+                              "inside_center",
+                              "keep_starboard_dominant",
+                              "large",
+                              "low",
+                              "low_occupancy",
+                              "medium",
+                              "mixed",
+                              "mixed_semantics",
+                              "not_to_impede",
+                              "opposing_flow",
+                              "ordinary_crossing_in_channel",
+                              "single_occupancy",
+                              "small",
+                              "supp_001",
+                              "t1",
+                              "t2",
+                              "t3",
+                              "t4",
+                              "t5",
+                              "t6",
+                              "third_vessel_blocking",
+                              "unknown"
+                            ],
+                            "type": "string"
+                          },
+                          "support_rules": {
+                            "items": {
+                              "enum": [
+                                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                                "COLREG_R05_LOOKOUT",
+                                "COLREG_R06_SAFE_SPEED",
+                                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                                "COLREG_R10_CROSSING",
+                                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                                "COLREG_R10_TSS_GENERAL",
+                                "COLREG_R13_OVERTAKING",
+                                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                                "COLREG_R16_GIVEWAY_MANEUVER",
+                                "COLREG_R17_STANDON",
+                                "COLREG_R18_RESPONSIBILITIES",
+                                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                                "COLREG_R19_ENGINES_READY",
+                                "COLREG_R19_RESTRICTED_VISIBILITY",
+                                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "primitive",
+                          "support_rules"
+                        ],
+                        "type": "object"
+                      },
+                      {
+                        "additionalProperties": false,
+                        "properties": {
+                          "primitive": {
+                            "enum": [
+                              "ACT_ON_SINGLE_TARGET_ONLY",
+                              "ADJUST_HEADING_TOWARD_SAFE_CROSSING_ANGLE",
+                              "ASSUME_VISUAL_CERTAINTY",
+                              "AVOID_CHANNEL_COMPRESSION",
+                              "AVOID_IMPEDING_CHANNEL_TRAFFIC",
+                              "CHECK_RECIPROCAL_CHANNEL_TRAFFIC",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                              "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution.",
+                              "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                              "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                              "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                              "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                              "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                              "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                              "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                              "COLREG_R05_LOOKOUT",
+                              "COLREG_R06_SAFE_SPEED",
+                              "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                              "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                              "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                              "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                              "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                              "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                              "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                              "COLREG_R10_CROSSING",
+                              "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                              "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                              "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                              "COLREG_R10_TSS_GENERAL",
+                              "COLREG_R13_OVERTAKING",
+                              "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                              "COLREG_R16_GIVEWAY_MANEUVER",
+                              "COLREG_R17_STANDON",
+                              "COLREG_R18_RESPONSIBILITIES",
+                              "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                              "COLREG_R19_RESTRICTED_VISIBILITY",
+                              "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                              "COLREG_R9_NARROW_CHANNEL_GENERAL",
+                              "CORRECT_CROSSING_ANGLE_SUBSTANTIALLY",
+                              "CROSS_AT_MODERATE_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_NEAR_RIGHT_ANGLE",
+                              "CROSS_AT_SMALL_ANGLE",
+                              "CROSS_AT_SMALL_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_AT_STEEP_CHANNEL_ENTRY_ANGLE",
+                              "CROSS_ONLY_IF_SAFE_AND_CLEAR",
+                              "CROSS_WITHOUT_CLEARANCE",
+                              "DEFER_ACTION",
+                              "DO_NOT_IMPEDE_CHANNEL_TRAFFIC",
+                              "DRIFT_TO_PORT_WITHIN_CHANNEL",
+                              "FORCE_CROSSING_THROUGH_CHANNEL_TRAFFIC",
+                              "GIVE_WAY_IF_REQUIRED",
+                              "GLOBAL_MULTI_TARGET_RESOLUTION",
+                              "IGNORE_CHANNEL_CONTEXT",
+                              "IGNORE_CONTEXTUAL_OVERRIDE",
+                              "IGNORE_HIGHER_PRIORITY_CONSTRAINT",
+                              "IGNORE_PRIORITY_TARGET",
+                              "KEEP_COURSE",
+                              "KEEP_COURSE_WITHOUT_GLOBAL_CHECK",
+                              "KEEP_LOOKOUT",
+                              "KEEP_SAFE_SPEED",
+                              "KEEP_TO_STARBOARD_WITHIN_CHANNEL",
+                              "MAINTAIN_CLEAR_TSS_CROSSING_INTENT",
+                              "MAINTAIN_EFFECTIVE_LOOKOUT",
+                              "MAINTAIN_STANDON_IF_SAFE",
+                              "MAINTAIN_STRONGLY_OFF_CROSSING",
+                              "MONITOR_AND_PREPARE",
+                              "NAIVE_SINGLE_TARGET_ACTION",
+                              "NAVIGATE_WITH_RESTRICTED_VISIBILITY_CAUTION",
+                              "OPEN_WATER_ONLY_REASONING",
+                              "PREFER_MINIMAL_GLOBALLY_SAFE_MANEUVER",
+                              "PRIORITIZE_CLOSEST_RISK",
+                              "PRIORITIZE_HIGHER_ORDER_RESPONSIBILITY",
+                              "PROCEED_AT_SAFE_SPEED",
+                              "PROCEED_SAFE_SPEED",
+                              "REASON_OVER_ALL_RELEVANT_TARGETS",
+                              "REDUCE_TO_SINGLE_OPEN_WATER_CROSSING_RULE",
+                              "RESOLVE_AHEAD_BLOCKING_WITH_SIDE_AWARE_ACTION",
+                              "RESOLVE_MULTIPLE_CHANNEL_CONSTRAINTS",
+                              "RESPECT_NARROW_CHANNEL_CONSTRAINTS",
+                              "ROLE_AWARE_ACTION_SELECTION",
+                              "SELECT_BALANCED_CONFLICT_RESOLVING_ACTION",
+                              "SQUEEZE_THROUGH_BOUNDARY_GAP",
+                              "TAKE_EARLY_SUBSTANTIAL_ACTION",
+                              "TAKE_IMMEDIATE_AVOIDING_ACTION",
+                              "TURN_PORT_IF_CONFLICTING",
+                              "USE_SINGLE_TARGET_TEMPLATE",
+                              "WAIT_OR_ADJUST_BEFORE_CROSSING",
+                              "action_conflict",
+                              "allow",
+                              "area_override",
+                              "crossing_across",
+                              "entering_from_outside",
+                              "hierarchy_override",
+                              "high",
+                              "inside_boundary",
+                              "inside_center",
+                              "keep_starboard_dominant",
+                              "large",
+                              "low",
+                              "low_occupancy",
+                              "medium",
+                              "mixed",
+                              "mixed_semantics",
+                              "not_to_impede",
+                              "opposing_flow",
+                              "ordinary_crossing_in_channel",
+                              "single_occupancy",
+                              "small",
+                              "supp_001",
+                              "t1",
+                              "t2",
+                              "t3",
+                              "t4",
+                              "t5",
+                              "t6",
+                              "third_vessel_blocking",
+                              "unknown"
+                            ],
+                            "type": "string"
+                          },
+                          "support_rules": {
+                            "items": {
+                              "enum": [
+                                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                                "COLREG_R05_LOOKOUT",
+                                "COLREG_R06_SAFE_SPEED",
+                                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                                "COLREG_R10_CROSSING",
+                                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                                "COLREG_R10_TSS_GENERAL",
+                                "COLREG_R13_OVERTAKING",
+                                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                                "COLREG_R16_GIVEWAY_MANEUVER",
+                                "COLREG_R17_STANDON",
+                                "COLREG_R18_RESPONSIBILITIES",
+                                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                                "COLREG_R19_ENGINES_READY",
+                                "COLREG_R19_RESTRICTED_VISIBILITY",
+                                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          },
+                          "targets": {
+                            "items": {
+                              "enum": [
+                                "t1",
+                                "t2",
+                                "t3",
+                                "t4",
+                                "t5",
+                                "t6"
+                              ],
+                              "type": "string"
+                            },
+                            "type": "array"
+                          }
+                        },
+                        "required": [
+                          "primitive",
+                          "support_rules",
+                          "targets"
+                        ],
+                        "type": "object"
+                      }
+                    ]
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "allowed",
+                "forbidden"
+              ],
+              "type": "object"
+            },
+            "summary": {
+              "additionalProperties": false,
+              "properties": {
+                "support_rules": {
+                  "items": {
+                    "enum": [
+                      "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                      "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                      "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                      "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                      "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                      "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                      "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                      "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                      "COLREG_R05_LOOKOUT",
+                      "COLREG_R06_SAFE_SPEED",
+                      "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                      "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                      "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                      "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                      "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                      "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                      "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                      "COLREG_R10_CROSSING",
+                      "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                      "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                      "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                      "COLREG_R10_TSS_GENERAL",
+                      "COLREG_R13_OVERTAKING",
+                      "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                      "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                      "COLREG_R16_GIVEWAY_MANEUVER",
+                      "COLREG_R17_STANDON",
+                      "COLREG_R18_RESPONSIBILITIES",
+                      "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                      "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                      "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                      "COLREG_R19_ENGINES_READY",
+                      "COLREG_R19_RESTRICTED_VISIBILITY",
+                      "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                      "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "suppression_count": {
+                  "minimum": 0,
+                  "type": "integer"
+                },
+                "target_ids": {
+                  "items": {
+                    "enum": [
+                      "t1",
+                      "t2",
+                      "t3",
+                      "t4",
+                      "t5",
+                      "t6"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "support_rules",
+                "target_ids",
+                "suppression_count"
+              ],
+              "type": "object"
+            },
+            "suppression": {
+              "additionalProperties": false,
+              "properties": {
+                "records": {
+                  "items": {
+                    "additionalProperties": false,
+                    "properties": {
+                      "blocking_target_id": {
+                        "enum": [
+                          "t1",
+                          "t2",
+                          "t3",
+                          "t4",
+                          "t5",
+                          "t6",
+                          "unknown"
+                        ],
+                        "type": "string"
+                      },
+                      "reason": {
+                        "enum": [
+                          "action_conflict",
+                          "area_override",
+                          "hierarchy_override",
+                          "mixed"
+                        ],
+                        "type": "string"
+                      },
+                      "reason_text": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution."
+                        ],
+                        "type": "string"
+                      },
+                      "record_id": {
+                        "enum": [
+                          "supp_001"
+                        ],
+                        "type": "string"
+                      },
+                      "source_target_id": {
+                        "enum": [
+                          "t1",
+                          "t2",
+                          "t3",
+                          "t4",
+                          "t5",
+                          "t6",
+                          "unknown"
+                        ],
+                        "type": "string"
+                      },
+                      "suppressed_primitive": {
+                        "enum": [
+                          "KEEP_COURSE"
+                        ],
+                        "type": "string"
+                      },
+                      "suppressed_rule_ids": {
+                        "items": {
+                          "enum": [
+                            "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                            "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                            "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                            "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                            "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                            "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                            "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                            "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                            "COLREG_R05_LOOKOUT",
+                            "COLREG_R06_SAFE_SPEED",
+                            "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                            "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                            "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                            "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                            "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                            "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                            "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                            "COLREG_R10_CROSSING",
+                            "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                            "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                            "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                            "COLREG_R10_TSS_GENERAL",
+                            "COLREG_R13_OVERTAKING",
+                            "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                            "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                            "COLREG_R16_GIVEWAY_MANEUVER",
+                            "COLREG_R17_STANDON",
+                            "COLREG_R18_RESPONSIBILITIES",
+                            "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                            "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                            "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                            "COLREG_R19_ENGINES_READY",
+                            "COLREG_R19_RESTRICTED_VISIBILITY",
+                            "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                            "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "suppressed_rules": {
+                        "items": {
+                          "enum": [
+                            "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                            "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                            "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                            "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                            "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                            "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                            "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                            "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                            "COLREG_R05_LOOKOUT",
+                            "COLREG_R06_SAFE_SPEED",
+                            "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                            "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                            "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                            "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                            "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                            "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                            "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                            "COLREG_R10_CROSSING",
+                            "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                            "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                            "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                            "COLREG_R10_TSS_GENERAL",
+                            "COLREG_R13_OVERTAKING",
+                            "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                            "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                            "COLREG_R16_GIVEWAY_MANEUVER",
+                            "COLREG_R17_STANDON",
+                            "COLREG_R18_RESPONSIBILITIES",
+                            "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                            "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                            "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                            "COLREG_R19_ENGINES_READY",
+                            "COLREG_R19_RESTRICTED_VISIBILITY",
+                            "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                            "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                          ],
+                          "type": "string"
+                        },
+                        "type": "array"
+                      },
+                      "suppression_type": {
+                        "enum": [
+                          "action_conflict",
+                          "area_override",
+                          "hierarchy_override",
+                          "mixed"
+                        ],
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "record_id",
+                      "suppression_type",
+                      "source_target_id",
+                      "blocking_target_id",
+                      "suppressed_rule_ids",
+                      "suppressed_rules",
+                      "suppressed_primitive",
+                      "reason",
+                      "reason_text"
+                    ],
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "support_rules": {
+                  "items": {
+                    "enum": [
+                      "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                      "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                      "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                      "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                      "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                      "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                      "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                      "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                      "COLREG_R05_LOOKOUT",
+                      "COLREG_R06_SAFE_SPEED",
+                      "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                      "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                      "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                      "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                      "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                      "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                      "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                      "COLREG_R10_CROSSING",
+                      "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                      "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                      "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                      "COLREG_R10_TSS_GENERAL",
+                      "COLREG_R13_OVERTAKING",
+                      "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                      "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                      "COLREG_R16_GIVEWAY_MANEUVER",
+                      "COLREG_R17_STANDON",
+                      "COLREG_R18_RESPONSIBILITIES",
+                      "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                      "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                      "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                      "COLREG_R19_ENGINES_READY",
+                      "COLREG_R19_RESTRICTED_VISIBILITY",
+                      "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                      "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                    ],
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "records",
+                "support_rules"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "maneuver",
+            "suppression",
+            "summary"
+          ],
+          "type": "object"
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "maneuver": {
+              "additionalProperties": false,
+              "properties": {
+                "CROSSING_CONTROL": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules"
+                  ],
+                  "type": "object"
+                },
+                "TSS_RULE_VARIANT": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "polarities": {
+                      "items": {
+                        "enum": [
+                          "allow",
+                          "forbid"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "support_rules": {
+                      "items": {
+                        "enum": [
+                          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                          "COLREG_R05_LOOKOUT",
+                          "COLREG_R06_SAFE_SPEED",
+                          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                          "COLREG_R10_CROSSING",
+                          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                          "COLREG_R10_TSS_GENERAL",
+                          "COLREG_R13_OVERTAKING",
+                          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                          "COLREG_R16_GIVEWAY_MANEUVER",
+                          "COLREG_R17_STANDON",
+                          "COLREG_R18_RESPONSIBILITIES",
+                          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                          "COLREG_R19_ENGINES_READY",
+                          "COLREG_R19_RESTRICTED_VISIBILITY",
+                          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                        ],
+                        "type": "string"
+                      },
+                      "type": "array"
+                    }
+                  },
+                  "required": [
+                    "polarities",
+                    "support_rules"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "CROSSING_CONTROL",
+                "TSS_RULE_VARIANT"
+              ],
+              "type": "object"
+            }
+          },
+          "required": [
+            "maneuver"
+          ],
+          "type": "object"
+        }
+      ]
+    },
+    "suppression_records": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "blocking_target_id": {
+            "enum": [
+              "t1",
+              "t2",
+              "t3",
+              "t4",
+              "t5",
+              "t6",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "reason": {
+            "enum": [
+              "action_conflict",
+              "area_override",
+              "hierarchy_override",
+              "mixed"
+            ],
+            "type": "string"
+          },
+          "reason_text": {
+            "enum": [
+              "COLREG_MULTI_TARGET_ACTION_CONFLICT suppressed under global multi-target resolution."
+            ],
+            "type": "string"
+          },
+          "record_id": {
+            "enum": [
+              "supp_001"
+            ],
+            "type": "string"
+          },
+          "source_target_id": {
+            "enum": [
+              "t1",
+              "t2",
+              "t3",
+              "t4",
+              "t5",
+              "t6",
+              "unknown"
+            ],
+            "type": "string"
+          },
+          "suppressed_primitive": {
+            "enum": [
+              "KEEP_COURSE"
+            ],
+            "type": "string"
+          },
+          "suppressed_rule_ids": {
+            "items": {
+              "enum": [
+                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                "COLREG_R05_LOOKOUT",
+                "COLREG_R06_SAFE_SPEED",
+                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                "COLREG_R10_CROSSING",
+                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                "COLREG_R10_TSS_GENERAL",
+                "COLREG_R13_OVERTAKING",
+                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                "COLREG_R16_GIVEWAY_MANEUVER",
+                "COLREG_R17_STANDON",
+                "COLREG_R18_RESPONSIBILITIES",
+                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                "COLREG_R19_ENGINES_READY",
+                "COLREG_R19_RESTRICTED_VISIBILITY",
+                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "suppressed_rules": {
+            "items": {
+              "enum": [
+                "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                "COLREG_R05_LOOKOUT",
+                "COLREG_R06_SAFE_SPEED",
+                "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                "COLREG_R10_CROSSING",
+                "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                "COLREG_R10_TSS_GENERAL",
+                "COLREG_R13_OVERTAKING",
+                "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                "COLREG_R16_GIVEWAY_MANEUVER",
+                "COLREG_R17_STANDON",
+                "COLREG_R18_RESPONSIBILITIES",
+                "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                "COLREG_R19_ENGINES_READY",
+                "COLREG_R19_RESTRICTED_VISIBILITY",
+                "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                "COLREG_R9_NARROW_CHANNEL_GENERAL"
+              ],
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "suppression_type": {
+            "enum": [
+              "action_conflict",
+              "area_override",
+              "hierarchy_override",
+              "mixed"
+            ],
+            "type": "string"
+          }
+        },
+        "required": [
+          "record_id",
+          "suppression_type",
+          "source_target_id",
+          "blocking_target_id",
+          "suppressed_rule_ids",
+          "suppressed_rules",
+          "suppressed_primitive",
+          "reason",
+          "reason_text"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "target_summaries": {
+      "items": {
+        "anyOf": [
+          {
+            "additionalProperties": false,
+            "properties": {
+              "closing": {
+                "type": "boolean"
+              },
+              "collision_imminent": {
+                "type": "boolean"
+              },
+              "cpa_m": {
+                "type": "number"
+              },
+              "relative_bearing_sector": {
+                "enum": [
+                  "ahead",
+                  "astern",
+                  "port",
+                  "starboard"
+                ],
+                "type": "string"
+              },
+              "risk_of_collision": {
+                "type": "boolean"
+              },
+              "target_id": {
+                "enum": [
+                  "t1",
+                  "t2",
+                  "t3",
+                  "t4",
+                  "t5",
+                  "t6"
+                ],
+                "type": "string"
+              },
+              "tcpa_s": {
+                "type": "number"
+              },
+              "triggered_rule_ids": {
+                "items": {
+                  "enum": [
+                    "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                    "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                    "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                    "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                    "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                    "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                    "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                    "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                    "COLREG_R05_LOOKOUT",
+                    "COLREG_R06_SAFE_SPEED",
+                    "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                    "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                    "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                    "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                    "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                    "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                    "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                    "COLREG_R10_CROSSING",
+                    "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                    "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                    "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                    "COLREG_R10_TSS_GENERAL",
+                    "COLREG_R13_OVERTAKING",
+                    "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                    "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                    "COLREG_R16_GIVEWAY_MANEUVER",
+                    "COLREG_R17_STANDON",
+                    "COLREG_R18_RESPONSIBILITIES",
+                    "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                    "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                    "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                    "COLREG_R19_ENGINES_READY",
+                    "COLREG_R19_RESTRICTED_VISIBILITY",
+                    "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                    "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "target_id",
+              "triggered_rule_ids",
+              "relative_bearing_sector",
+              "cpa_m",
+              "tcpa_s",
+              "risk_of_collision",
+              "closing",
+              "collision_imminent"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "closing": {
+                "type": "boolean"
+              },
+              "collision_imminent": {
+                "type": "boolean"
+              },
+              "cpa_m": {
+                "type": "number"
+              },
+              "intended_role": {
+                "enum": [
+                  "blocking_boundary_target",
+                  "channel_traffic_target",
+                  "crossing_target",
+                  "distant_channel_traffic_target",
+                  "opposing_along_channel_target"
+                ],
+                "type": "string"
+              },
+              "relative_bearing_sector": {
+                "enum": [
+                  "ahead",
+                  "astern",
+                  "port",
+                  "starboard"
+                ],
+                "type": "string"
+              },
+              "risk_of_collision": {
+                "type": "boolean"
+              },
+              "target_id": {
+                "enum": [
+                  "t1",
+                  "t2",
+                  "t3",
+                  "t4",
+                  "t5",
+                  "t6"
+                ],
+                "type": "string"
+              },
+              "tcpa_s": {
+                "type": "number"
+              },
+              "triggered_rule_ids": {
+                "items": {
+                  "enum": [
+                    "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                    "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                    "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                    "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                    "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                    "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                    "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                    "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                    "COLREG_R05_LOOKOUT",
+                    "COLREG_R06_SAFE_SPEED",
+                    "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                    "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                    "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                    "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                    "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                    "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                    "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                    "COLREG_R10_CROSSING",
+                    "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                    "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                    "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                    "COLREG_R10_TSS_GENERAL",
+                    "COLREG_R13_OVERTAKING",
+                    "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                    "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                    "COLREG_R16_GIVEWAY_MANEUVER",
+                    "COLREG_R17_STANDON",
+                    "COLREG_R18_RESPONSIBILITIES",
+                    "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                    "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                    "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                    "COLREG_R19_ENGINES_READY",
+                    "COLREG_R19_RESTRICTED_VISIBILITY",
+                    "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                    "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "target_id",
+              "triggered_rule_ids",
+              "relative_bearing_sector",
+              "cpa_m",
+              "tcpa_s",
+              "risk_of_collision",
+              "closing",
+              "collision_imminent",
+              "intended_role"
+            ],
+            "type": "object"
+          },
+          {
+            "additionalProperties": false,
+            "properties": {
+              "closing": {
+                "type": "boolean"
+              },
+              "collision_imminent": {
+                "type": "boolean"
+              },
+              "cpa_m": {
+                "type": "number"
+              },
+              "relative_bearing_sector": {
+                "enum": [
+                  "ahead",
+                  "astern",
+                  "port",
+                  "starboard"
+                ],
+                "type": "string"
+              },
+              "risk_of_collision": {
+                "type": "boolean"
+              },
+              "target_id": {
+                "enum": [
+                  "t1",
+                  "t2",
+                  "t3",
+                  "t4",
+                  "t5",
+                  "t6"
+                ],
+                "type": "string"
+              },
+              "target_role": {
+                "enum": [
+                  "target_1",
+                  "target_2",
+                  "target_3",
+                  "target_4",
+                  "target_5",
+                  "target_6"
+                ],
+                "type": "string"
+              },
+              "tcpa_s": {
+                "type": "number"
+              },
+              "triggered_rule_ids": {
+                "items": {
+                  "enum": [
+                    "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+                    "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+                    "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+                    "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+                    "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+                    "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+                    "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+                    "COLREG_MULTI_TARGET_SURROUNDING_RING",
+                    "COLREG_R05_LOOKOUT",
+                    "COLREG_R06_SAFE_SPEED",
+                    "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+                    "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+                    "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+                    "COLREG_R09_CROSSING_NARROW_CHANNEL",
+                    "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+                    "COLREG_R09_NARROW_CHANNEL_GENERAL",
+                    "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+                    "COLREG_R10_CROSSING",
+                    "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+                    "COLREG_R10_MODERATE_ANGLE_MONITORING",
+                    "COLREG_R10_RIGHT_ANGLE_CROSSING",
+                    "COLREG_R10_TSS_GENERAL",
+                    "COLREG_R13_OVERTAKING",
+                    "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+                    "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+                    "COLREG_R16_GIVEWAY_MANEUVER",
+                    "COLREG_R17_STANDON",
+                    "COLREG_R18_RESPONSIBILITIES",
+                    "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+                    "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+                    "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+                    "COLREG_R19_ENGINES_READY",
+                    "COLREG_R19_RESTRICTED_VISIBILITY",
+                    "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+                    "COLREG_R9_NARROW_CHANNEL_GENERAL"
+                  ],
+                  "type": "string"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "target_id",
+              "triggered_rule_ids",
+              "relative_bearing_sector",
+              "cpa_m",
+              "tcpa_s",
+              "risk_of_collision",
+              "closing",
+              "collision_imminent",
+              "target_role"
+            ],
+            "type": "object"
+          }
+        ]
+      },
+      "type": "array"
+    },
+    "triggered_rules": {
+      "items": {
+        "enum": [
+          "COLREG_MULTI_TARGET_ACTION_CONFLICT",
+          "COLREG_MULTI_TARGET_AREA_OVERRIDE",
+          "COLREG_MULTI_TARGET_BILATERAL_CONSTRAINT",
+          "COLREG_MULTI_TARGET_FRONTAL_BLOCKING",
+          "COLREG_MULTI_TARGET_GLOBAL_RESOLUTION",
+          "COLREG_MULTI_TARGET_HIERARCHY_OVERRIDE",
+          "COLREG_MULTI_TARGET_REMOVAL_SENSITIVE",
+          "COLREG_MULTI_TARGET_SURROUNDING_RING",
+          "COLREG_R05_LOOKOUT",
+          "COLREG_R06_SAFE_SPEED",
+          "COLREG_R07_RISK_OF_COLLISION_ASSESS",
+          "COLREG_R08_AVOID_CONSTRAINED_CHANNEL_COMPRESSION",
+          "COLREG_R08_POSITIVE_ACTION_WHEN_RISK",
+          "COLREG_R09_CROSSING_NARROW_CHANNEL",
+          "COLREG_R09_KEEP_NEAR_STARBOARD_LIMIT",
+          "COLREG_R09_NARROW_CHANNEL_GENERAL",
+          "COLREG_R09_NOT_TO_IMPEDE_PASSAGE",
+          "COLREG_R10_CROSSING",
+          "COLREG_R10_HEADING_CORRECTION_TO_CROSS",
+          "COLREG_R10_MODERATE_ANGLE_MONITORING",
+          "COLREG_R10_RIGHT_ANGLE_CROSSING",
+          "COLREG_R10_TSS_GENERAL",
+          "COLREG_R13_OVERTAKING",
+          "COLREG_R14_HEAD_ON_OR_RECIPROCAL_RISK_CHECK",
+          "COLREG_R15_CROSSING_GIVEWAY_TARGET_STARBOARD",
+          "COLREG_R16_GIVEWAY_MANEUVER",
+          "COLREG_R17_STANDON",
+          "COLREG_R18_RESPONSIBILITIES",
+          "COLREG_R18_RESPONSIBILITIES_BETWEEN_VESSELS",
+          "COLREG_R19D2_AVOID_TURN_TOWARD_STARBOARD_ABEAM_OR_AFT",
+          "COLREG_R19D3_AVOID_TURN_TOWARD_PORT_ABEAM_OR_AFT",
+          "COLREG_R19_ENGINES_READY",
+          "COLREG_R19_RESTRICTED_VISIBILITY",
+          "COLREG_R19_SAFE_SPEED_RESTRICTED_VIS",
+          "COLREG_R9_NARROW_CHANNEL_GENERAL"
+        ],
+        "type": "string"
+      },
+      "type": "array"
+    }
+  },
+  "required": [
+    "triggered_rules",
+    "maneuver_allowed",
+    "maneuver_forbidden",
+    "target_summaries",
+    "primitive_ledger_summary",
+    "suppression_records"
+  ],
+  "title": "Strict six-head full-fields benchmark prediction",
+  "type": "object"
+}

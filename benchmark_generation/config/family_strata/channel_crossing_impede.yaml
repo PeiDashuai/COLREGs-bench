@@ -1,0 +1,48 @@
+family_name: channel_crossing_impede
+
+sampling:
+  num_vessels:
+    min: 3
+    max: 6
+  latent_variables:
+    - name: channel_width
+      type: categorical
+      values: [narrow, medium, wide]
+    - name: crossing_angle_band
+      type: categorical
+      values: [small, medium, large]
+    - name: occupancy_pattern
+      type: categorical
+      values: [single_occupancy, opposing_flow, third_vessel_blocking, low_occupancy]
+    - name: semantic_mode
+      type: categorical
+      values: [ordinary_crossing_in_channel, not_to_impede, keep_starboard_dominant, mixed_semantics]
+    - name: ownship_channel_position
+      type: categorical
+      values: [inside_center, inside_boundary, entering_from_outside, crossing_across]
+    - name: effective_target_count
+      type: categorical
+      values: [1, 2, 3]
+
+strata:
+  dimensions:
+    - name: semantic_mode
+      bins: [ordinary_crossing_in_channel, not_to_impede, keep_starboard_dominant, mixed_semantics]
+      target_quota:
+        ordinary_crossing_in_channel: 0.25
+        not_to_impede: 0.25
+        keep_starboard_dominant: 0.20
+        mixed_semantics: 0.30
+    - name: channel_width
+      bins: [narrow, medium, wide]
+      target_quota:
+        narrow: 0.40
+        medium: 0.40
+        wide: 0.20
+    - name: occupancy_pattern
+      bins: [single_occupancy, opposing_flow, third_vessel_blocking, low_occupancy]
+      target_quota:
+        single_occupancy: 0.25
+        opposing_flow: 0.25
+        third_vessel_blocking: 0.30
+        low_occupancy: 0.20

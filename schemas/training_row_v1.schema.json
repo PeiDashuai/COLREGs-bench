@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "training_row_v1.schema.json",
+  "title": "COLREGs structured-reasoning training row v1",
+  "type": "object",
+  "required": [
+    "record_id",
+    "source_id",
+    "regime",
+    "split",
+    "system_prompt",
+    "user_prompt",
+    "assistant_json",
+    "images",
+    "metadata"
+  ],
+  "properties": {
+    "record_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "regime": {
+      "enum": [
+        "colregs_text_ft",
+        "final_only_ft",
+        "structured_core_three_ft",
+        "structured_multimodal_ft"
+      ]
+    },
+    "split": {"enum": ["train", "val"]},
+    "system_prompt": {"type": "string", "minLength": 1},
+    "user_prompt": {"type": "string", "minLength": 1},
+    "assistant_json": {"type": "string", "minLength": 2},
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["role", "path"],
+        "properties": {
+          "role": {"enum": ["topdown", "radar"]},
+          "path": {"type": "string", "minLength": 1}
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 2
+    },
+    "metadata": {"type": "object"}
+  },
+  "additionalProperties": false
+}

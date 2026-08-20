@@ -1,0 +1,59 @@
+family_name: restricted_multi
+
+sampling:
+  num_vessels:
+    min: 4
+    max: 7
+    description: "1 ownship + 3~6 target vessels"
+  latent_variables:
+    - name: effective_participant_count
+      type: categorical
+      values: [3, 4, 5, 6]
+    - name: spatial_topology
+      type: categorical
+      values: [single_side_cluster, bilateral_constraint, frontal_blocking, surrounding_ring]
+    - name: interaction_graph_density
+      type: categorical
+      values: [sparse, medium, dense]
+    - name: urgency_level
+      type: categorical
+      values: [low, medium, high]
+    - name: suppression_type
+      type: categorical
+      values: [action_conflict, hierarchy_override, area_override, mixed]
+    - name: visibility_context
+      type: categorical
+      values: [in_sight, restricted_visibility]
+    - name: vessel_status_mix
+      type: categorical
+      values: [all_power, mixed_status]
+
+strata:
+  dimensions:
+    - name: effective_participant_count
+      bins: [3, 4, 5, 6]
+      target_quota:
+        3: 0.30
+        4: 0.30
+        5: 0.25
+        6: 0.15
+    - name: spatial_topology
+      bins: [single_side_cluster, bilateral_constraint, frontal_blocking, surrounding_ring]
+      target_quota:
+        single_side_cluster: 0.25
+        bilateral_constraint: 0.30
+        frontal_blocking: 0.25
+        surrounding_ring: 0.20
+    - name: suppression_type
+      bins: [action_conflict, hierarchy_override, area_override, mixed]
+      target_quota:
+        action_conflict: 0.30
+        hierarchy_override: 0.25
+        area_override: 0.20
+        mixed: 0.25
+    - name: urgency_level
+      bins: [low, medium, high]
+      target_quota:
+        low: 0.25
+        medium: 0.45
+        high: 0.30
