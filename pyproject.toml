@@ -9,6 +9,7 @@ description = "Public code for COLREGs-Bench structured evaluation and adaptatio
 requires-python = ">=3.11"
 dependencies = [
   "jsonschema>=4.23,<5",
+  "pydantic>=2,<3",
   "PyYAML>=6,<7",
 ]
 
@@ -23,6 +24,10 @@ training = [
   "sentencepiece>=0.2,<1",
 ]
 api = ["openai>=2,<3"]
+generation = [
+  "matplotlib>=3.10,<4",
+  "numpy>=2,<3",
+]
 test = ["pytest>=8,<10"]
 
 [tool.setuptools]

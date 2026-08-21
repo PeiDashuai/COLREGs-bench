@@ -30,6 +30,12 @@ For GPT-series API inference:
 python -m pip install -e ".[api]"
 ```
 
+For benchmark generation and image rendering:
+
+```bash
+python -m pip install -e ".[generation]"
+```
+
 ## Verify and inspect the benchmark
 
 ```bash
@@ -124,3 +130,10 @@ responses. The included `.gitignore` blocks the common local locations.
 
 `configs/paper_experiment_config.json` records the paper-level settings without
 machine-specific paths, credentials, model weights, or internal run artifacts.
+
+## License
+
+The source code in this repository is licensed under the Apache License 2.0;
+see `LICENSE`. The separately distributed COLREGs-Bench data are licensed under
+CC BY 4.0; see `LICENSE-DATA.md` and the license file included in the benchmark
+archive.
